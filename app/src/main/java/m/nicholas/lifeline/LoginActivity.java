@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Intent signUp = new Intent(this,RegisterActivity.class);
             signUp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(signUp);
-            finish();
         }
         if(view == txtForgotPassword){
             Toast.makeText(this,"Feature will be added later",Toast.LENGTH_SHORT).show();

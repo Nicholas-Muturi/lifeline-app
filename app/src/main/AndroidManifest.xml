@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/Login_Register"/>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/Login_Register">

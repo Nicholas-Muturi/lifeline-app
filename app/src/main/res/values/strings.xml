@@ -6,5 +6,8 @@
     <string name="hint_email">Email</string>
     <string name="hint_dob">Date of Birth</string>
     <string name="hint_Password">Password</string>
+    <string name="hint_confirm">Confirm Password</string>
+    <string name="login_header">LOGIN</string>
+    <string name="sign_up_header">SIGN UP</string>
 
 </resources>
