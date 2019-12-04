@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.forgotPasswordLoginView) TextView txtForgotPassword;
     @BindView(R.id.imageLoginBtn) ImageView btnLogin;
     @BindView(R.id.signUpLoginView) TextView txtSignUp;
+    @BindView(R.id.loginProgressBar) ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth firebaseAuth;
 
@@ -63,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         else if(password.isEmpty())
             txtLoginPassword.setError("Please fill in this field");
         else {
+            showProgressBar_hideButton();
             signInUser(email,password);
         }
     }
@@ -70,6 +73,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void signInUser(String email,String password){
         firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this,task->{
            if(task.isSuccessful()){
+               hideProgressBar_showButton();
+               clearFields();
                Intent signUp = new Intent(this,MainActivity.class);
                signUp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(signUp);
@@ -80,5 +85,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+
+    private void showProgressBar_hideButton(){
+        progressBar.setVisibility(View.VISIBLE);
+        btnLogin.setVisibility(View.GONE);
+    }
+
+    private void hideProgressBar_showButton(){
+        progressBar.setVisibility(View.GONE);
+        btnLogin.setVisibility(View.VISIBLE);
+    }
+
+    private void clearFields(){
+        txtLoginEmail.setText("");
+        txtLoginPassword.setText("");
+    }
+
 
 }

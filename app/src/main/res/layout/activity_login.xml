@@ -123,6 +123,17 @@
                 android:focusable="true"
                 android:src="@drawable/ic_arrow_forward_black" />
 
+            <ProgressBar
+                android:id="@+id/loginProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/passwordTextInputLayout"
+                android:visibility="gone"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="47dp"
+                android:layout_marginEnd="12dp" />
+
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 

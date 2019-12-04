@@ -11,4 +11,8 @@
     <string name="sign_up_header">SIGN UP</string>
     <string name="back_to_login">Have an account? Log in</string>
 
+    <!-- MENU -->
+    <string name="menu_logout">Logout</string>
+    <string name="menu_settings">Settings</string>
+
 </resources>
