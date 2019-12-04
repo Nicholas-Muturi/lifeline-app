@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#ce0000</color>
+    <color name="colorPrimaryDark">#950000</color>
+    <color name="colorPrimaryLight">#ff4f30</color>
+
+    <color name="colorAccent">#7edeea</color>
+    <color name="colorSecondaryDark">#48acb8</color>
+    <color name="colorSecondaryLight">#b2ffff</color>
+
+    <!-- USEFUL -->
+    <color name="semi_black">#202020</color>
 </resources>
