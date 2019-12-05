@@ -18,12 +18,12 @@ import m.nicholas.lifeline.R;
 public class Fragment_Medical_Info extends Fragment {
 
 
-    public static Fragment_Medical_Info newInstance(){
-        return new Fragment_Medical_Info();
-    }
-
     private Fragment_Medical_Info() {
         // Required empty public constructor
+    }
+
+    public static Fragment_Medical_Info newInstance(){
+        return new Fragment_Medical_Info();
     }
 
 
