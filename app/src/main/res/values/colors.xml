@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#ce0000</color>
     <color name="colorPrimaryDark">#950000</color>
-    <color name="colorPrimaryLight">#ff4f30</color>
+    <color name="colorPrimaryLight">#FF5454</color>
 
     <color name="colorAccent">#7edeea</color>
     <color name="colorSecondaryDark">#48acb8</color>
@@ -10,4 +10,5 @@
 
     <!-- USEFUL -->
     <color name="semi_black">#202020</color>
+    <color name="text_semi_black">#2E2E2E</color>
 </resources>

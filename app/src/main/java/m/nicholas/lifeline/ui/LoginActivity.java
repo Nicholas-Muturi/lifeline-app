@@ -1,10 +1,9 @@
-package m.nicholas.lifeline;
+package m.nicholas.lifeline.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,11 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.regex.Pattern;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import m.nicholas.lifeline.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.loginEmail) EditText txtLoginEmail;
@@ -27,18 +26,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.signUpLoginView) TextView txtSignUp;
     @BindView(R.id.loginProgressBar) ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        firebaseAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         btnLogin.setOnClickListener(this);
         txtForgotPassword.setOnClickListener(this);
         txtSignUp.setOnClickListener(this);
+        createAuthListener();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             checkCredentials_then_SignIn();
         }
         if(view == txtSignUp){
-            Intent signUp = new Intent(this,RegisterActivity.class);
+            Intent signUp = new Intent(this, RegisterActivity.class);
             signUp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(signUp);
         }
@@ -71,19 +71,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signInUser(String email,String password){
-        firebaseAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this,task->{
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this,task->{
            if(task.isSuccessful()){
                hideProgressBar_showButton();
                clearFields();
-               Intent signUp = new Intent(this,MainActivity.class);
+               Intent signUp = new Intent(this, MainActivity.class);
                signUp.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(signUp);
                finish();
             }
             else {
                Toast.makeText(this,"Login Failed. Check username or password",Toast.LENGTH_SHORT).show();
+               hideProgressBar_showButton();
             }
         });
+    }
+
+    private void createAuthListener(){
+        authListener = firebaseAuth ->{
+            final FirebaseUser user = firebaseAuth.getCurrentUser();
+            if(user != null){
+                Intent intent = new Intent(this,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(authListener != null)
+            mAuth.removeAuthStateListener(authListener);
     }
 
     private void showProgressBar_hideButton(){

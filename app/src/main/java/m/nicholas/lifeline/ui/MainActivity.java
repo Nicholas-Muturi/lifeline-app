@@ -1,6 +1,5 @@
-package m.nicholas.lifeline;
+package m.nicholas.lifeline.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import m.nicholas.lifeline.R;
 
 public class MainActivity extends AppCompatActivity {
 

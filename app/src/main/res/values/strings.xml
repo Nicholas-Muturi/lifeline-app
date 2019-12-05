@@ -4,15 +4,40 @@
     <!-- HINTS -->
     <string name="hint_Name">Name</string>
     <string name="hint_email">Email</string>
-    <string name="hint_dob">Date of Birth</string>
     <string name="hint_Password">Password</string>
     <string name="hint_confirm">Confirm Password</string>
     <string name="login_header">LOGIN</string>
     <string name="sign_up_header">SIGN UP</string>
     <string name="back_to_login">Have an account? Log in</string>
 
+    <string name="hint_dob">Date of Birth</string>
+    <string name="hint_height">Height</string>
+    <string name="hint_weight">Weight</string>
+    <string name="hint_bloodtype">Blood type</string>
+    <string name="hint_allergies">Allergies</string>
+    <string name="hint_medication">Medications</string>
+    <string name="hint_notes">Notes</string>
+
+
     <!-- MENU -->
     <string name="menu_logout">Logout</string>
     <string name="menu_settings">Settings</string>
+
+    <!-- USER INFO -->
+    <string name="info_name">John Doe</string>
+    <string name="info_title_height">Height (cm)</string>
+    <string name="info_title_age">Age</string>
+    <string name="info_title_weight">Weight (kgs)</string>
+    <string name="info_title_bloodType">Blood Type</string>
+    <string name="info_title_allergies">Known Allergies</string>
+    <string name="info_title_medication">Current Medications</string>
+    <string name="info_title_notes">Important Notes</string>
+
+    <string name="info_height">183</string>
+    <string name="info_age">23</string>
+    <string name="info_weight">40</string>
+    <string name="info_bloodtype">O +</string>
+    <string name="info_none">None</string>
+
 
 </resources>

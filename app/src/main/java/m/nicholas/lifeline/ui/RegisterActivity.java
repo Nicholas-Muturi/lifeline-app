@@ -1,4 +1,4 @@
-package m.nicholas.lifeline;
+package m.nicholas.lifeline.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,12 +21,13 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import m.nicholas.lifeline.R;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = RegisterActivity.class.getName() ;
     @BindView(R.id.signUpName) EditText txtRegisterName;
     @BindView(R.id.signUpEmail) EditText txtRegisterEmail;
-    @BindView(R.id.signUpDOB) EditText txtRegisterDOB;
+    //@BindView(R.id.signUpDOB) EditText txtRegisterDOB;
     @BindView(R.id.signUpPass) EditText txtRegisterPass;
     @BindView(R.id.signUpConfirmPass) EditText txtRegisterConfirmPass;
     @BindView(R.id.imageSignUpBtn) ImageView btnSignUp;
@@ -78,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             validateInput_then_SignUp();
         }
         if(view == tvBackToLogin){
-            Intent intent = new Intent(this,LoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -86,9 +87,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void validateInput_then_SignUp() {
+        // TODO: 05-Dec-19 Move D.O.B string to user information page
         String name = txtRegisterName.getText().toString().trim();
         String email = txtRegisterEmail.getText().toString().trim();
-        String dob = txtRegisterDOB.getText().toString().trim();
+        //String dob = txtRegisterDOB.getText().toString().trim();
         String password = txtRegisterPass.getText().toString().trim();
         String confirmPass = txtRegisterConfirmPass.getText().toString().trim();
 
@@ -98,9 +100,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         else if(email.isEmpty()){
             txtRegisterEmail.setError("Please fill in this field");
         }
-        else if(dob.isEmpty()){
+        /*else if(dob.isEmpty()){
             txtRegisterDOB.setError("Please fill in this field");
-        }
+        }*/
         else if(password.isEmpty()){
             txtRegisterPass.setError("Please fill in this field");
         }
@@ -166,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void clearFields(){
         txtRegisterName.setText("");
         txtRegisterEmail.setText("");
-        txtRegisterDOB.setText("");
+        //txtRegisterDOB.setText("");
         txtRegisterPass.setText("");
         txtRegisterConfirmPass.setText("");
     }
