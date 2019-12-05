@@ -39,5 +39,11 @@
     <string name="info_bloodtype">O +</string>
     <string name="info_none">None</string>
 
+    <!-- SETTINGS -->
+    <string name="setting_profile">Edit medical info</string>
+    <string name="setting_contact">Set emergency contact</string>
+    <string name="setting_logout">Logout</string>
+
+
 
 </resources>
