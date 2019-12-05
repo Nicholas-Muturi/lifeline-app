@@ -37,7 +37,6 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         SettingsListAdapter adapter = new SettingsListAdapter(this,android.R.layout.simple_list_item_1,menu);
         settingsList.setAdapter(adapter);
         settingsList.setOnItemClickListener(this);
-
     }
 
     private void setMenu(){
@@ -51,10 +50,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
         String menuItem = ((TextView)view).getText().toString();
 
         if(menuItem.equals("Edit medical info")){
-
+            Intent intent = new Intent(SettingsActivity.this, SettingsFragmentHolderActivity.class);
+            intent.putExtra("fragment","medical");
+            startActivity(intent);
         }
         if(menuItem.equals("Set emergency contacts")){
-
+            Intent intent = new Intent(SettingsActivity.this, SettingsFragmentHolderActivity.class);
+            intent.putExtra("fragment","contacts");
+            startActivity(intent);
         }
         if(menuItem.equals("Logout")){
             FirebaseAuth.getInstance().signOut();
