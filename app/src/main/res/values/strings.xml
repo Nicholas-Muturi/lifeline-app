@@ -33,10 +33,10 @@
     <string name="info_title_medication">Current Medications</string>
     <string name="info_title_notes">Important Notes</string>
 
-    <string name="info_height">183</string>
-    <string name="info_age">23</string>
-    <string name="info_weight">40</string>
-    <string name="info_bloodtype">O +</string>
+    <string name="info_height">0</string>
+    <string name="info_age">0</string>
+    <string name="info_weight">0</string>
+    <string name="info_bloodtype">AB +</string>
     <string name="info_none">None</string>
 
     <!-- SETTINGS -->

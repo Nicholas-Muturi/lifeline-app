@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 User user = dataSnapshot.getValue(User.class);
 
                 assert user != null;
-                clearViews();
                 updateViews(user);
             }
 
@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateViews(User user){
+        String none = "None";
+        List<String> medications = user.getMedications();
+        List<String> allergies = user.getAllergies();
+
         tvUsername.setText(user.getName());
         tvUserAge.setText(String.valueOf(user.getAge()));
         tvUserBloodType.setText(user.getBloodType());
@@ -87,29 +91,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
             tvUserWeight.setText(String.valueOf(user.getWeight()));
 
-
-        for(String str : user.getMedications()){
-            tvUserMedications.append("\u2022 " +str+ " \n");
+        if(medications == null || medications.isEmpty()){
+            tvUserMedications.setText(none);
+        } else {
+            StringBuilder sbMedication = new StringBuilder();
+            String concatStr;
+            for(int i = 0; i < medications.size()-1; i++){
+                concatStr = "\u2022 "+medications.get(i)+ "\n";
+                sbMedication.append(concatStr);
+            }
+            concatStr = "\u2022 "+medications.get(medications.size()-1);
+            sbMedication.append(concatStr);
+            tvUserMedications.setText(sbMedication.toString());
         }
-        for(String str : user.getAllergies()){
-            tvUserAllergies.append("\u2022 "+str+ " \n");
-        }
-    }
 
-    public void clearViews(){
-        tvUsername.setText("");
-        tvUserAge.setText("");
-        tvUserHeight.setText("");
-        tvUserWeight.setText("");
-        tvUserBloodType.setText("");
-        tvUserNotes.setText("");
-        tvUserMedications.setText("");
-        tvUserAllergies.setText("");
+        if(allergies == null || allergies.isEmpty()){
+            tvUserAllergies.setText(none);
+        } else {
+            StringBuilder sbAllergies = new StringBuilder();
+            String concatStr;
+            for(int i = 0; i < allergies.size()-1; i++){
+                concatStr = "\u2022 "+allergies.get(i)+ "\n";
+                sbAllergies.append(concatStr);
+            }
+            concatStr = "\u2022 "+allergies.get(allergies.size()-1);
+            sbAllergies.append(concatStr);
+            tvUserAllergies.setText(sbAllergies.toString());
+        }
     }
 
     @Override
     public void onClick(View view) {
-
+        //Send emergency message
     }
 
     @Override

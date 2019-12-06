@@ -15,7 +15,7 @@
         <activity
             android:name=".ui.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Login_Register">
+            android:theme="@style/black_accent_no_appbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -25,7 +25,7 @@
         <activity
             android:name=".ui.RegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Login_Register" />
+            android:theme="@style/black_accent_no_appbar" />
 
         <activity android:name=".ui.MainActivity" />
 
@@ -35,7 +35,9 @@
                 android:value="m.nicholas.lifeline.ui.MainActivity" />
         </activity>
 
-        <activity android:name=".ui.SettingsFragmentHolderActivity">
+        <activity
+            android:name=".ui.SettingsFragmentHolderActivity"
+            android:theme="@style/black_accent_with_appbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="m.nicholas.lifeline.ui.SettingsActivity" />

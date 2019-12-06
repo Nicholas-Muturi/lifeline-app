@@ -51,13 +51,17 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
 
         if(menuItem.equals("Edit medical info")){
             Intent intent = new Intent(SettingsActivity.this, SettingsFragmentHolderActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fragment","medical");
             startActivity(intent);
+            finish();
         }
         if(menuItem.equals("Set emergency contacts")){
             Intent intent = new Intent(SettingsActivity.this, SettingsFragmentHolderActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("fragment","contacts");
             startActivity(intent);
+            finish();
         }
         if(menuItem.equals("Logout")){
             FirebaseAuth.getInstance().signOut();
@@ -66,5 +70,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
             startActivity(intent);
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 }

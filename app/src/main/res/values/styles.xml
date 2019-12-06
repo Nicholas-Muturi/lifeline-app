@@ -14,8 +14,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- LOGIN & REGISTRATION STYLE-->
-    <style name="Login_Register" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- BLACK ACCENT THEME (USED WHERE TEXT-INPUT-LAYOUT IS) -->
+    <style name="black_accent_no_appbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/semi_black</item>
+    </style>
+
+    <style name="black_accent_with_appbar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/semi_black</item>

@@ -27,8 +27,6 @@ public class User {
         height = 0;
         weight = 0;
         this.bloodType = Constants.NOT_SPECIFIED;
-        this.allergies.add("None");
-        this.medications .add("None");
         notes = "None";
         calculateAge(dateOfBirth);
     }
