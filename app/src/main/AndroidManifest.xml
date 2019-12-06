@@ -11,24 +11,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Login_Register">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.RegisterActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Login_Register" />
+
         <activity android:name=".ui.MainActivity" />
+
         <activity android:name=".ui.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="m.nicholas.lifeline.ui.MainActivity" />
         </activity>
+
         <activity android:name=".ui.SettingsFragmentHolderActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

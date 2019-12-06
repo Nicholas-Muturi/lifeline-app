@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import m.nicholas.lifeline.Constants;
+
 public class User {
     private String name;
     private String dateOfBirth;
@@ -16,11 +18,15 @@ public class User {
     private List<String> medications = new ArrayList<>();
     private String notes;
 
+    /*-- Empty constructor required by Firebase --*/
+    public User(){}
+
     public User(String name, String dateOfBirth) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         height = 0;
         weight = 0;
+        this.bloodType = Constants.NOT_SPECIFIED;
         this.allergies.add("None");
         this.medications .add("None");
         notes = "None";
@@ -109,7 +115,6 @@ public class User {
         if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)){
             age--;
         }
-
         setAge(age);
     }
 }
