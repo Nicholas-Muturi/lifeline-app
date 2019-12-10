@@ -69,7 +69,7 @@ public class Fragment_Medical_Info extends Fragment implements View.OnClickListe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUser = dataSnapshot.getValue(User.class);
-                //setEditTextValues(mUser);
+                setEditTextValues(mUser);
             }
 
             @Override
@@ -134,10 +134,7 @@ public class Fragment_Medical_Info extends Fragment implements View.OnClickListe
                     Toast.makeText(getContext(),"Update Failed",Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         }
-
 
     }
 

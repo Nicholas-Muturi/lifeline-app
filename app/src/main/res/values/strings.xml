@@ -17,6 +17,11 @@
     <string name="hint_allergies">Allergies</string>
     <string name="hint_medication">Medications</string>
     <string name="hint_notes">Notes</string>
+    <string name="hint_contact_name">Name</string>
+    <string name="hint_contact_number">Phone Number</string>
+    <string name="contact_limit">You can have a maximum of 3 emergency contacts</string>
+    <string name="btn_save_details">Save Details</string>
+    <string name="btn_save_contact">Save Contact</string>
 
 
     <!-- MENU -->
