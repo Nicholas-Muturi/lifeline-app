@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendEmergencyMessage() {
+        String emegencyMessage = "Hello! I'm currently in an emergency and in need of help.";
         SmsManager smsManager = SmsManager.getDefault();
         String uId = FirebaseAuth.getInstance().getUid();
 
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String mobileNumber = snapshot.getValue(Contact.class).getNumber();
-                    smsManager.sendTextMessage(mobileNumber,null,"test",null,null);
+                    smsManager.sendTextMessage(mobileNumber,null,emegencyMessage,null,null);
                 }
                 Toast.makeText(MainActivity.this,"Emergency Sms Sent", Toast.LENGTH_SHORT).show();
             }
