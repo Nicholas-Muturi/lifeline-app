@@ -2,12 +2,8 @@ package m.nicholas.lifeline.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.Menu;
@@ -47,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.userNotes) TextView tvUserNotes;
     @BindView(R.id.btnSendEmergency) Button btnEmergency;
     private DatabaseReference infoRef;
-    private DatabaseReference contactRef;
     private ValueEventListener infoEventListener;
 
     @Override
@@ -165,13 +160,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void sendEmergencyMessage() {
         SmsManager smsManager = SmsManager.getDefault();
-
         String uId = FirebaseAuth.getInstance().getUid();
-        contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIRWEBASE_CHILD_EMERGENCY_CONTACTS).child(uId);
 
+        assert uId != null;
+        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIRWEBASE_CHILD_EMERGENCY_CONTACTS).child(uId);
         contactRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() == 0){
+                    Toast.makeText(MainActivity.this,"Emergency contacts not set. Go to settings to add a contact", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String mobileNumber = snapshot.getValue(Contact.class).getNumber();
                     smsManager.sendTextMessage(mobileNumber,null,"test",null,null);

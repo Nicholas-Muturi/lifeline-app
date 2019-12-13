@@ -84,10 +84,10 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
         contactRef.push().setValue(newContact).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 clearText();
-                Toast.makeText(getContext(),"Contact upload successful",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Contact saved",Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(getContext(),"Contact upload failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Failed to save contact",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -98,6 +98,7 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() == 3) {
                     btnSaveContact.setEnabled(false);
+                    Toast.makeText(getContext(),"Max contact limit reached",Toast.LENGTH_SHORT).show();
                 }
                 else
                     btnSaveContact.setEnabled(true);
