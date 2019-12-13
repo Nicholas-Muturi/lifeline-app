@@ -1,8 +1,12 @@
 package m.nicholas.lifeline.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import m.nicholas.lifeline.Constants;
 import m.nicholas.lifeline.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        checkPermission();
         mAuth = FirebaseAuth.getInstance();
 
         btnLogin.setOnClickListener(this);
@@ -110,6 +116,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStop();
         if(authListener != null)
             mAuth.removeAuthStateListener(authListener);
+    }
+
+    private void checkPermission(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, Constants.SMS_PERMISSION_CODE);
+        }
+
+        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},Constants.FINE_LOCATION_PERMISSION_CODE);
+        }
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},Constants.CAORSE_LOCATION_PERMISSION_CODE);
+        }*/
     }
 
     private void showProgressBar_hideButton(){

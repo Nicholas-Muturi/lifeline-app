@@ -234,14 +234,12 @@
     <Button
         android:id="@+id/btnSendEmergency"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="Send Emergency Message"
         android:textStyle="bold"
         android:fontFamily="@font/maven_pro"
         android:textSize="18sp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

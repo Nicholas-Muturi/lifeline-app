@@ -110,8 +110,6 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
         });
     }
 
-
-
     private void clearText() {
         etContactName.setText("");
         etContactNumber.setText("");
