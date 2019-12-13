@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        checkPermission();
         mAuth = FirebaseAuth.getInstance();
 
         btnLogin.setOnClickListener(this);
@@ -118,19 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mAuth.removeAuthStateListener(authListener);
     }
 
-    private void checkPermission(){
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, Constants.SMS_PERMISSION_CODE);
-        }
 
-        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},Constants.FINE_LOCATION_PERMISSION_CODE);
-        }
-
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},Constants.CAORSE_LOCATION_PERMISSION_CODE);
-        }*/
-    }
 
     private void showProgressBar_hideButton(){
         progressBar.setVisibility(View.VISIBLE);

@@ -181,7 +181,7 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.mikhaellopez.circularimageview.CircularImageView
+            <com.github.siyamed.shapeimageview.CircularImageView
                 android:id="@+id/imageSignUpBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

@@ -43,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.signUpProgressBar) ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth mAuth;
-    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         else{
             /* -- Everything is valid, call sign up function-- */
             showProgressBar_hideButton();
-            mUser = new User(name,dob);
+            User mUser = new User(name, dob);
 
             signUpUser(mUser, email, password);
         }
@@ -186,6 +185,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void uploadUserInfo(User user){
         String childPath = FirebaseAuth.getInstance().getUid();
+        assert childPath != null;
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_USER_INFO).child(childPath);
         ref.setValue(user);
     }

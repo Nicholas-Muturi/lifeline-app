@@ -40,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     }
 
     private void setMenu(){
+        menu.add("Edit profile");
         menu.add("Edit medical info");
         menu.add("Set emergency contacts");
         menu.add("Logout");
@@ -48,6 +49,14 @@ public class SettingsActivity extends AppCompatActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         String menuItem = ((TextView)view).getText().toString();
+
+        if(menuItem.equals("Edit profile")){
+            Intent intent = new Intent(SettingsActivity.this, SettingsFragmentHolderActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("fragment","profile");
+            startActivity(intent);
+            finish();
+        }
 
         if(menuItem.equals("Edit medical info")){
             Intent intent = new Intent(SettingsActivity.this, SettingsFragmentHolderActivity.class);

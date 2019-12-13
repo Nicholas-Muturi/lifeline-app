@@ -2,8 +2,13 @@ package m.nicholas.lifeline.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.view.Menu;
@@ -21,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -51,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-
+        checkPermission();
         displayInformation();
         btnEmergency.setOnClickListener(this);
     }
@@ -119,15 +125,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvUserBloodType.setText(user.getBloodType());
         tvUserNotes.setText(user.getNotes());
 
-        if(user.getHeight() == 0)
-            tvUserHeight.setText(Constants.NOT_SPECIFIED);
-        else
-            tvUserHeight.setText(String.valueOf(user.getHeight()));
+        if(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl() != null){
+            Uri imageUri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+            Picasso.get().load(imageUri).into(profilePhoto);
+        }
 
-        if(user.getWeight() == 0)
-            tvUserWeight.setText(Constants.NOT_SPECIFIED);
-        else
-            tvUserWeight.setText(String.valueOf(user.getWeight()));
+        if(user.getHeight() == 0) tvUserHeight.setText(Constants.NOT_SPECIFIED);
+        else tvUserHeight.setText(String.valueOf(user.getHeight()));
+
+        if(user.getWeight() == 0) tvUserWeight.setText(Constants.NOT_SPECIFIED);
+        else tvUserWeight.setText(String.valueOf(user.getWeight()));
 
         if(medications == null || medications.isEmpty()){
             tvUserMedications.setText(none);
@@ -164,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String uId = FirebaseAuth.getInstance().getUid();
 
         assert uId != null;
-        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIRWEBASE_CHILD_EMERGENCY_CONTACTS).child(uId);
+        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_CONTACTS).child(uId);
         contactRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -185,7 +192,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+    }
 
+    private void checkPermission(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, Constants.SMS_PERMISSION_CODE);
+        }
+
+        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},Constants.FINE_LOCATION_PERMISSION_CODE);
+        }
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},Constants.CAORSE_LOCATION_PERMISSION_CODE);
+        }*/
     }
 
 }

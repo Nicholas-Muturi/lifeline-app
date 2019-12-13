@@ -3,6 +3,7 @@ package m.nicholas.lifeline.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
@@ -24,6 +25,9 @@ public class SettingsFragmentHolderActivity extends AppCompatActivity {
         String fragmentType = Objects.requireNonNull(getIntent().getExtras()).getString("fragment");
 
         assert fragmentType != null;
+        if(fragmentType.equals("profile")){
+            getProfileFragment();
+        }
         if(fragmentType.equals("medical")){
             getMedicalFragment();
         }
@@ -43,8 +47,21 @@ public class SettingsFragmentHolderActivity extends AppCompatActivity {
         implementSelectedFragment(fragment);
     }
 
+    private void getProfileFragment(){
+        fragment = Fragment_User_Profile.newInstance();
+        implementSelectedFragment(fragment);
+    }
+
     private void implementSelectedFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(fragment_container.getId(),fragment).commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(SettingsFragmentHolderActivity.this, SettingsActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
 }

@@ -55,7 +55,7 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
         ButterKnife.bind(this,view);
 
         String uid = FirebaseAuth.getInstance().getUid();
-        contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIRWEBASE_CHILD_EMERGENCY_CONTACTS).child(uid);
+        contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_CONTACTS).child(uid);
         maxLimitValidation();
 
         btnSaveContact.setOnClickListener(this);
