@@ -11,7 +11,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import m.nicholas.lifeline.Constants;
 import m.nicholas.lifeline.R;
+import m.nicholas.lifeline.adapters.firebaseContactViewHolder;
 import m.nicholas.lifeline.models.Contact;
 import m.nicholas.lifeline.models.User;
 
@@ -34,6 +40,8 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
     @BindView(R.id.contactName) EditText etContactName;
     @BindView(R.id.contactNumber) EditText etContactNumber;
     @BindView(R.id.btnSaveContact) Button btnSaveContact;
+    @BindView(R.id.contactsRecyclerView) RecyclerView contactRecyclerView;
+    private FirebaseRecyclerAdapter<Contact, firebaseContactViewHolder> mFirebaseRecyclerAdapter;
     private DatabaseReference contactRef;
     private User mUser;
 
@@ -56,8 +64,8 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
 
         String uid = FirebaseAuth.getInstance().getUid();
         contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_CONTACTS).child(uid);
-        maxLimitValidation();
-
+        checkMaxLimitValidation();
+        setUpFirebaseAdapter();
         btnSaveContact.setOnClickListener(this);
         return view;
     }
@@ -85,6 +93,7 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
             if (task.isSuccessful()){
                 clearText();
                 Toast.makeText(getContext(),"Contact saved",Toast.LENGTH_SHORT).show();
+                checkMaxLimitValidation();
             }
             else {
                 Toast.makeText(getContext(),"Failed to save contact",Toast.LENGTH_SHORT).show();
@@ -92,7 +101,30 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
         });
     }
 
-    public void maxLimitValidation(){
+    private void setUpFirebaseAdapter() {
+        FirebaseRecyclerOptions<Contact> options = new FirebaseRecyclerOptions.Builder<Contact>()
+                .setQuery(contactRef,Contact.class).build();
+
+        mFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Contact, firebaseContactViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull firebaseContactViewHolder firebaseContactViewHolder, int i, @NonNull Contact contact) {
+                firebaseContactViewHolder.bindItems(contact);
+            }
+
+            @NonNull
+            @Override
+            public firebaseContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_contact_item,parent,false);
+                return new firebaseContactViewHolder(view);
+            }
+        };
+        DividerItemDecoration itemDecor = new DividerItemDecoration(contactRecyclerView.getContext(),DividerItemDecoration.VERTICAL);
+        contactRecyclerView.setAdapter(mFirebaseRecyclerAdapter);
+        contactRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        contactRecyclerView.addItemDecoration(itemDecor);
+    }
+
+    public void checkMaxLimitValidation(){
         contactRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -109,6 +141,18 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
 
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFirebaseRecyclerAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFirebaseRecyclerAdapter.stopListening();
     }
 
     private void clearText() {
