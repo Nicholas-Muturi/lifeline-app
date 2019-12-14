@@ -31,9 +31,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/black_accent_no_appbar" />
 
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.SettingsActivity">
+        <activity android:name=".ui.SettingsActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="m.nicholas.lifeline.ui.MainActivity" />
@@ -41,6 +43,7 @@
 
         <activity
             android:name=".ui.SettingsFragmentHolderActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/black_accent_with_appbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
