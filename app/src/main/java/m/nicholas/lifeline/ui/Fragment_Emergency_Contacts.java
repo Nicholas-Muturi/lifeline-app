@@ -43,6 +43,7 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
     @BindView(R.id.contactsRecyclerView) RecyclerView contactRecyclerView;
     private FirebaseRecyclerAdapter<Contact, firebaseContactViewHolder> mFirebaseRecyclerAdapter;
     private DatabaseReference contactRef;
+    private ValueEventListener contactListener;
     private User mUser;
 
 
@@ -125,7 +126,7 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
     }
 
     public void checkMaxLimitValidation(){
-        contactRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        contactListener = new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() == 3) {
@@ -140,19 +141,21 @@ public class Fragment_Emergency_Contacts extends Fragment implements View.OnClic
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        };
     }
 
     @Override
     public void onStart() {
         super.onStart();
         mFirebaseRecyclerAdapter.startListening();
+        contactRef.addValueEventListener(contactListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mFirebaseRecyclerAdapter.stopListening();
+        contactRef.removeEventListener(contactListener);
     }
 
     private void clearText() {

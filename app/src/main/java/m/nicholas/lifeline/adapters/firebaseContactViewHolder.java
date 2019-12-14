@@ -1,9 +1,8 @@
 package m.nicholas.lifeline.adapters;
 
-import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,45 +16,48 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import m.nicholas.lifeline.Constants;
 import m.nicholas.lifeline.R;
 import m.nicholas.lifeline.models.Contact;
+import m.nicholas.lifeline.ui.Fragment_Emergency_Contacts;
 
-public class firebaseContactViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+public class firebaseContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
     private View mView;
-    private Context mContext;
 
     public firebaseContactViewHolder(@NonNull View itemView) {
         super(itemView);
         this.mView = itemView;
-        this.mContext = itemView.getContext();
-        itemView.setOnLongClickListener(this);
     }
 
     public void bindItems(Contact contact){
         TextView contactName = mView.findViewById(R.id.contactItemName);
         TextView contactNumber = mView.findViewById(R.id.contactItemNumber);
+        ImageView delete = mView.findViewById(R.id.deleteItemIcon);
 
         contactName.setText(contact.getName());
         contactNumber.setText(contact.getNumber());
+        delete.setOnClickListener(this);
     }
 
     @Override
-    public boolean onLongClick(View view) {
+    public void onClick(View view) {
         int position = getAdapterPosition();
-        List<Contact> allContacts = new ArrayList<>();
+        List<String> allContactKeys = new ArrayList<>();
 
-        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_CONTACTS).child(FirebaseAuth.getInstance().getUid());
+        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_CONTACTS)
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getUid()));
+
         contactRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    allContacts.add(snapshot.getValue(Contact.class));
+                    allContactKeys.add(snapshot.getKey());
                 }
-
-                Toast.makeText(mContext,allContacts.get(position).getName(),Toast.LENGTH_SHORT).show();
+                String itemIdToRemove = allContactKeys.get(position);
+                contactRef.child(itemIdToRemove).removeValue();
             }
 
             @Override
@@ -63,7 +65,5 @@ public class firebaseContactViewHolder extends RecyclerView.ViewHolder implement
 
             }
         });
-
-        return false;
     }
 }

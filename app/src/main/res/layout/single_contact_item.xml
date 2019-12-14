@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clickable="false"
-    android:focusable="true"
-    android:paddingBottom="5dp"
-    android:background="?android:attr/selectableItemBackground"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:weightSum="100"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp">
 
-    <TextView
-        android:id="@+id/contactItemName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textSize="19sp"
-        android:textColor="@color/text_semi_black"
-        android:text="Person A" />
+    <LinearLayout
+        android:id="@+id/linearText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="99">
 
-    <TextView
-        android:id="@+id/contactItemNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_below="@+id/contactItemName"
-        android:textSize="15sp"
-        android:text="0727234234" />
+        <TextView
+            android:id="@+id/contactItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Person A"
+            android:textColor="@color/text_semi_black"
+            android:textSize="19sp" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/contactItemNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contactItemName"
+            android:textSize="15sp"
+            android:text="0727234234" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/deleteItemIcon"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/ic_delete" />
+
+</LinearLayout>
