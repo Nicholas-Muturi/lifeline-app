@@ -98,21 +98,26 @@ public class Fragment_Medical_Info extends Fragment implements View.OnClickListe
         List<String> medicationList = Arrays.asList(medicationStr.split(","));
         List<String> allergyList = Arrays.asList(allergiesStr.split(","));
 
-        if(heightStr.isEmpty()) heightStr = "0";
+        if(heightStr.isEmpty() || heightStr.equals(String.valueOf(mUser.getHeight())))
+            heightStr = String.valueOf(mUser.getHeight());
 
-        if(weightStr.isEmpty()) weightStr = "0";
+        if(weightStr.isEmpty() || weightStr.equals(String.valueOf(mUser.getWeight())))
+            weightStr = String.valueOf(mUser.getWeight());
 
-        if(medicationStr.isEmpty() || medicationStr.equalsIgnoreCase("None") || medicationStr.equalsIgnoreCase("Nothing")) medicationList = null;
+        if(medicationStr.isEmpty() || medicationStr.equalsIgnoreCase("None") || medicationStr.equalsIgnoreCase("Nothing"))
+            medicationList = null;
 
-        if(allergiesStr.isEmpty() || allergiesStr.equalsIgnoreCase("None") || allergiesStr.equalsIgnoreCase("Nothing")) allergyList = null;
+        if(allergiesStr.isEmpty() || allergiesStr.equalsIgnoreCase("None") || allergiesStr.equalsIgnoreCase("Nothing"))
+            allergyList = null;
 
-        if(notes.isEmpty() || notes.equalsIgnoreCase("Nothing")) notes = "None";
+        if(notes.isEmpty() || notes.equalsIgnoreCase("Nothing"))
+            notes = "None";
 
-        if(bloodType.isEmpty() || bloodType.equalsIgnoreCase(Constants.NOT_SPECIFIED)) etBloodType.setError("Please specify a bloodtype");
+        if(bloodType.isEmpty() || bloodType.equalsIgnoreCase(Constants.NOT_SPECIFIED))
+            etBloodType.setError("Please specify a bloodtype");
         else {
-            System.out.println("wrong");
             mUser.setHeight(Integer.parseInt(heightStr));
-            mUser.setWeight(Integer.parseInt(heightStr));
+            mUser.setWeight(Integer.parseInt(weightStr));
             mUser.setMedications(medicationList);
             mUser.setAllergies(allergyList);
             mUser.setBloodType(bloodType);
