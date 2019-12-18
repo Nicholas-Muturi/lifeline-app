@@ -1,16 +1,12 @@
 package m.nicholas.lifeline.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +40,7 @@ import m.nicholas.lifeline.R;
 import m.nicholas.lifeline.models.Contact;
 import m.nicholas.lifeline.models.User;
 
+@SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.userProfilePhoto) ImageView profilePhoto;
     @BindView(R.id.userName) TextView tvUsername;
@@ -48,23 +52,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.userMedications) TextView tvUserMedications;
     @BindView(R.id.userNotes) TextView tvUserNotes;
     @BindView(R.id.btnSendEmergency) Button btnEmergency;
-    private DatabaseReference infoRef;
+    private FusedLocationProviderClient fusedLocationClient;
     private ValueEventListener infoEventListener;
+    private DatabaseReference infoRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         checkPermission();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         displayInformation();
         btnEmergency.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if(view == btnEmergency) sendEmergencyMessage();
+        if(view == btnEmergency)
+            Get_and_Send_Message();
     }
 
     @Override
@@ -164,13 +171,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void sendEmergencyMessage() {
-        String emergencyMessage = "Hello! I'm currently in an emergency and in need of help.";
-        SmsManager smsManager = SmsManager.getDefault();
-        String uId = FirebaseAuth.getInstance().getUid();
+    private void Get_and_Send_Message() {
+        /* -- get custom message from firebase first then send -- */
+        DatabaseReference messageRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_MESSAGE).child(FirebaseAuth.getInstance().getUid());
+        messageRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String emergencyMessage = (String) dataSnapshot.getValue();
+                combineMessageWithUserLocation(emergencyMessage);
+            }
 
-        assert uId != null;
-        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_CONTACTS).child(uId);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void combineMessageWithUserLocation(String customMessage){
+
+        // GET USER LOCATION IF PERMISSION IS GRANTED
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this,location -> {
+                   // Handle special cases where location is turned off hence null result
+                   if(location != null){
+                       String messageWithLocation = customMessage +
+                               ".My location is: http://maps.google.com/maps?q=" +
+                               location.getLatitude() +
+                               "," +
+                               location.getLongitude();
+                       sendFinalMessageToContacts(messageWithLocation);
+                   }
+                   else {
+                       sendFinalMessageToContacts(customMessage);
+                   }
+            });
+        }
+        else {
+            sendFinalMessageToContacts(customMessage);
+        }
+    }
+
+    private void sendFinalMessageToContacts(String message){
+        SmsManager smsManager = SmsManager.getDefault();
+
+        DatabaseReference contactRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_CONTACTS).child(FirebaseAuth.getInstance().getUid());
         contactRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -181,8 +226,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String mobileNumber = snapshot.getValue(Contact.class).getNumber();
-                    smsManager.sendTextMessage(mobileNumber,null,emergencyMessage,null,null);
+                    smsManager.sendTextMessage(mobileNumber,null,message,null,null);
                 }
+                Log.i("mmmm", "onDataChange: "+message);
                 Toast.makeText(MainActivity.this,"Emergency Sms Sent", Toast.LENGTH_SHORT).show();
             }
 
@@ -193,18 +239,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+
+
     private void checkPermission(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, Constants.SMS_PERMISSION_CODE);
         }
 
-        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},Constants.FINE_LOCATION_PERMISSION_CODE);
         }
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},Constants.CAORSE_LOCATION_PERMISSION_CODE);
-        }*/
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},Constants.COARSE_LOCATION_PERMISSION_CODE);
+        }
     }
 
 }
