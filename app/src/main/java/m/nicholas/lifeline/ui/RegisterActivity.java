@@ -157,6 +157,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                clearFields();
                hideProgressBar_showButton();
 
+               /* -- SET DEFAULT EMERGENCY MESSAGE -- */
+               DatabaseReference messageRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_EMERGENCY_MESSAGE).child(FirebaseAuth.getInstance().getUid());
+               messageRef.setValue(Constants.DEFAULT_MESSAGE);
+
                /* -- UPDATE DISPLAY NAME && UPLOAD INFO -- */
                setFirebaseDisplayName(user.getName());
                uploadUserInfo(user);

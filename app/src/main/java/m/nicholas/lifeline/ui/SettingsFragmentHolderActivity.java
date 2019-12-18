@@ -34,6 +34,9 @@ public class SettingsFragmentHolderActivity extends AppCompatActivity {
         if(fragmentType.equals("contacts")){
             getEmergencyContactsFragment();
         }
+        if(fragmentType.equals("message")){
+            getCustomMessageFragment();
+        }
 
     }
 
@@ -44,6 +47,11 @@ public class SettingsFragmentHolderActivity extends AppCompatActivity {
 
     private void getEmergencyContactsFragment(){
         fragment = Fragment_Emergency_Contacts.newInstance();
+        implementSelectedFragment(fragment);
+    }
+
+    private void getCustomMessageFragment(){
+        fragment = Fragment_Message.newInstance();
         implementSelectedFragment(fragment);
     }
 

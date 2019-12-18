@@ -17,11 +17,13 @@
     <string name="hint_allergies">Allergies</string>
     <string name="hint_medication">Medications</string>
     <string name="hint_notes">Notes</string>
+    <string name="hint_message">Message</string>
     <string name="hint_contact_name">Name</string>
     <string name="hint_contact_number">Phone Number</string>
     <string name="contact_limit">You can have a maximum of 3 emergency contacts</string>
     <string name="btn_save_details">Save Details</string>
     <string name="btn_save_contact">Save Contact</string>
+    <string name="btn_save_message">Save Message</string>
 
 
     <!-- MENU -->
@@ -36,7 +38,7 @@
     <string name="info_title_bloodType">Blood Type</string>
     <string name="info_title_allergies">Known Allergies</string>
     <string name="info_title_medication">Current Medications</string>
-    <string name="info_title_notes">Important Notes</string>
+    <string name="info_title_notes">Additional Information</string>
 
     <string name="info_height">0</string>
     <string name="info_age">0</string>
