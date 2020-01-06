@@ -30,7 +30,7 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_settings">Settings</string>
 
-    <!-- USER INFO -->
+    <!-- MAIN -->
     <string name="info_name">John Doe</string>
     <string name="info_title_height">Height (cm)</string>
     <string name="info_title_age">Age</string>
@@ -45,6 +45,7 @@
     <string name="info_weight">0</string>
     <string name="info_bloodtype">AB +</string>
     <string name="info_none">None</string>
+    <string name="send_emergency_message">Send S.O.S</string>
 
     <!-- SETTINGS -->
     <string name="setting_profile">Edit medical info</string>

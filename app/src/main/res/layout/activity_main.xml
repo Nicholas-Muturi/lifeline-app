@@ -7,7 +7,7 @@
     tools:context=".ui.MainActivity">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -234,13 +234,25 @@
         android:id="@+id/btnSendEmergency"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:text="Send Emergency Message"
-        android:textStyle="bold"
-        android:fontFamily="@font/maven_pro"
-        android:textSize="18sp"
         android:backgroundTint="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        android:fontFamily="@font/maven_pro"
+        android:text="@string/send_emergency_message"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollViewMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/mainProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

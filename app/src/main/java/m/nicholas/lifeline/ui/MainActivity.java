@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.userMedications) TextView tvUserMedications;
     @BindView(R.id.userNotes) TextView tvUserNotes;
     @BindView(R.id.btnSendEmergency) Button btnEmergency;
+    @BindView(R.id.mainProgressBar) ProgressBar progressBar;
+    @BindView(R.id.scrollViewMain) ScrollView scrollView;
     private FusedLocationProviderClient fusedLocationClient;
     private ValueEventListener infoEventListener;
     private DatabaseReference infoRef;
@@ -61,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        showProgressBar();
+        hideDataFields();
+
         checkPermission();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -116,7 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                hideProgressBar();
+                Toast.makeText(MainActivity.this,"An error occurred",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -169,6 +177,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             sbAllergies.append(concatStr);
             tvUserAllergies.setText(sbAllergies.toString());
         }
+
+        hideProgressBar();
+        showDataFields();
     }
 
     private void Get_and_Send_Message() {
@@ -239,8 +250,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
-
     private void checkPermission(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS}, Constants.SMS_PERMISSION_CODE);
@@ -255,4 +264,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
+    }
+    private void hideProgressBar(){
+        progressBar.setVisibility(View.GONE);
+    }
+    private void hideDataFields(){
+        scrollView.setVisibility(View.GONE);
+        btnEmergency.setVisibility(View.GONE);
+    }
+    private void showDataFields(){
+        scrollView.setVisibility(View.VISIBLE);
+        btnEmergency.setVisibility(View.VISIBLE);
+    }
 }
